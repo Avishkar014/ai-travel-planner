@@ -62,10 +62,15 @@ try {
   console.log("Trip Response:", data);
 
   if (!response.ok) {
-    throw new Error(
-      data.message || "Failed to generate trip"
-    );
-  }
+  console.log("Backend Error:", data);
+
+  alert(
+    data.message ||
+    JSON.stringify(data)
+  );
+
+  return;
+}
 
   if (data.success && data.trip?._id) {
     router.push(`/trips/${data.trip._id}`);

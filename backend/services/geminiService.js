@@ -1,48 +1,94 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(
+  process.env.GEMINI_API_KEY
+);
+
 export const generateItinerary = async (tripData) => {
-  const { destination, days, interests, budget } = tripData;
+  const {
+    destination,
+    days,
+    interests,
+    budget,
+  } = tripData;
 
-  return {
-    itinerary: [
-      {
-        day: 1,
-        title: `Explore ${destination}`,
-        activities: [
-          "Visit popular attractions",
-          "Local food tour",
-          "Evening sightseeing"
-        ]
-      },
-      {
-        day: 2,
-        title: "Adventure Day",
-        activities: [
-          "Outdoor activities",
-          "Photography spots",
-          "Shopping"
-        ]
-      },
-      {
-        day: Number(days),
-        title: "Relax and Departure",
-        activities: [
-          "Breakfast",
-          "Last-minute shopping",
-          "Departure"
-        ]
-      }
-    ],
+  try {
+    const prompt = `
+Generate a detailed travel itinerary.
 
-    budget: {
-      tier: budget,
-      estimatedCost: 15000
-    },
+Destination: ${destination}
+Duration: ${days} days
+Budget: ${budget}
+Interests: ${interests.join(", ")}
 
-    hotels: [
-      {
-        name: "Travel Comfort Hotel",
-        pricePerNight: 3000,
-        rating: 4.5
-      }
-    ]
-  };
+Requirements:
+- Use real attractions specific to the destination
+- Suggest famous local food places
+- Recommend suitable hotels
+- Create different plans for different destinations
+- Include morning, afternoon and evening activities
+- Return ONLY valid JSON
+
+Format:
+
+{
+  "itinerary":[
+    {
+      "day":1,
+      "title":"Day Title",
+      "activities":[
+        "Morning activity",
+        "Afternoon activity",
+        "Evening activity"
+      ]
+    }
+  ],
+  "budget":{
+    "tier":"${budget}",
+    "estimatedCost":15000
+  },
+  "hotels":[
+    {
+      "name":"Hotel Name",
+      "pricePerNight":3000,
+      "rating":4.5
+    }
+  ]
+}
+`;
+
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+    });
+
+    const result =
+      await model.generateContent(prompt);
+
+    const response = result.response;
+
+    const text = response.text();
+
+    console.log("Gemini Response:", text);
+
+    const cleaned = text
+      .replace(/```json/g, "")
+      .replace(/```/g, "")
+      .trim();
+
+    return JSON.parse(cleaned);
+  } catch (error) {
+    console.error(
+      "========== GEMINI ERROR =========="
+    );
+
+    console.error(error);
+
+    throw new Error(
+      error.message ||
+      "Failed to generate itinerary"
+    );
+  }
 };
