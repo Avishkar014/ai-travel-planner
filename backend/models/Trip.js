@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const tripSchema = new mongoose.Schema(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+},
 
     destination: {
       type: String,
@@ -20,30 +20,16 @@ const tripSchema = new mongoose.Schema(
 
     budgetTier: {
       type: String,
-      enum: ["low", "medium", "high"],
       required: true,
     },
 
-    interests: [
-      {
-        type: String,
-      },
-    ],
+    interests: [String],
 
-    itinerary: {
-      type: Array,
-      default: [],
-    },
+    itinerary: [],
 
-    estimatedBudget: {
-      type: Number,
-      default: 0,
-    },
+    estimatedBudget: {},
 
-    hotels: {
-      type: Array,
-      default: [],
-    },
+    hotels: [],
   },
   {
     timestamps: true,
