@@ -78,11 +78,11 @@ export const getTripById = async (req, res) => {
       trip,
     });
   } catch (error) {
-    console.error(error);
+  console.error("TRIP ERROR:", error);
 
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+  res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+} 
   }
-};

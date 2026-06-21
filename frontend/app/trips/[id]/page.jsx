@@ -55,92 +55,172 @@ export default function TripDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-8">
-      <div className="max-w-5xl mx-auto">
+  <div className="min-h-screen bg-gradient-to-br from-slate-50 via-cyan-50 to-blue-50">
 
-        <div className="bg-white rounded-2xl shadow-md p-8 mb-8">
-          <h1 className="text-4xl font-bold text-slate-900">
-            {trip.destination}
-          </h1>
+    <div className="max-w-7xl mx-auto px-6 py-8">
 
-          <div className="mt-4 flex gap-6">
-            <p>
-              <strong>Days:</strong> {trip.durationDays}
-            </p>
+      {/* Hero */}
+      <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-sky-500 via-blue-600 to-violet-600 p-10 text-white shadow-2xl">
 
-            <p>
-              <strong>Budget:</strong> {trip.budgetTier}
-            </p>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full translate-x-20 -translate-y-20" />
+
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -translate-x-16 translate-y-16" />
+
+        <h1 className="text-5xl font-bold capitalize">
+          {trip.destination}
+        </h1>
+
+        <p className="mt-3 text-cyan-100 text-lg">
+          Your AI Generated Travel Plan
+        </p>
+
+        <div className="flex flex-wrap gap-4 mt-8">
+
+          <div className="bg-white/20 backdrop-blur px-5 py-3 rounded-2xl">
+            📅 {trip.durationDays} Days
+          </div>
+
+          <div className="bg-white/20 backdrop-blur px-5 py-3 rounded-2xl">
+            💰 ₹{trip.estimatedBudget?.estimatedCost}
+          </div>
+
+          <div className="bg-white/20 backdrop-blur px-5 py-3 rounded-2xl capitalize">
+            ✈️ {trip.budgetTier}
+          </div>
+
+        </div>
+      </div>
+
+      {/* Overview Cards */}
+      <div className="grid md:grid-cols-3 gap-6 mt-10">
+
+        <div className="bg-white rounded-3xl p-6 shadow-lg">
+          <h3 className="text-slate-500">
+            Estimated Budget
+          </h3>
+
+          <h2 className="text-4xl font-bold mt-2">
+            ₹{trip.estimatedBudget?.estimatedCost}
+          </h2>
+        </div>
+
+        <div className="bg-white rounded-3xl p-6 shadow-lg">
+          <h3 className="text-slate-500">
+            Duration
+          </h3>
+
+          <h2 className="text-4xl font-bold mt-2">
+            {trip.durationDays} Days
+          </h2>
+        </div>
+
+        <div className="bg-white rounded-3xl p-6 shadow-lg">
+          <h3 className="text-slate-500">
+            Interests
+          </h3>
+
+          <div className="flex flex-wrap gap-2 mt-3">
+            {trip.interests?.map((item) => (
+              <span
+                key={item}
+                className="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full"
+              >
+                {item}
+              </span>
+            ))}
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-md p-8 mb-8">
-          <h2 className="text-2xl font-bold mb-4">
-            Estimated Budget
-          </h2>
+      </div>
 
-          <p>
-            ₹ {trip.estimatedBudget?.estimatedCost}
-          </p>
-        </div>
+      {/* Hotels */}
+      <div className="mt-14">
+        <h2 className="text-3xl font-bold mb-8">
+          Recommended Hotels
+        </h2>
 
-        <div className="bg-white rounded-2xl shadow-md p-8 mb-8">
-          <h2 className="text-2xl font-bold mb-4">
-            Recommended Hotels
-          </h2>
+        <div className="grid md:grid-cols-2 gap-6">
 
           {trip.hotels?.map((hotel, index) => (
             <div
               key={index}
-              className="border rounded-xl p-4 mb-4"
+              className="bg-white rounded-3xl p-6 shadow-lg"
             >
-              <h3 className="font-semibold text-lg">
+              <h3 className="text-2xl font-bold">
                 {hotel.name}
               </h3>
 
-              <p>
-                Price/Night: ₹ {hotel.pricePerNight}
+              <p className="mt-3 text-slate-500">
+                ₹{hotel.pricePerNight}/night
               </p>
 
-              <p>
-                Rating: ⭐ {hotel.rating}
+              <p className="mt-2">
+                ⭐ {hotel.rating}
               </p>
             </div>
           ))}
+
         </div>
+      </div>
 
-        <div className="bg-white rounded-2xl shadow-md p-8">
-          <h2 className="text-2xl font-bold mb-6">
-            Itinerary
-          </h2>
+      {/* Itinerary */}
+      <div className="mt-14">
 
-          {trip.itinerary?.map((day) => (
-            <div
-              key={day.day}
-              className="border-l-4 border-cyan-500 pl-4 mb-8"
-            >
-              <h3 className="text-xl font-bold">
-                Day {day.day}
+        <h2 className="text-3xl font-bold mb-8">
+          Travel Itinerary
+        </h2>
+
+        <div className="space-y-8">
+
+          {trip.itinerary?.map((day, index) => (
+          <div
+            key={`${day.day}-${index}`}
+            className="
+              relative
+              bg-white
+              rounded-3xl
+              p-8
+              shadow-lg
+              border-l-8
+              border-cyan-500
+            "
+          >
+
+              <div className="absolute -left-5 top-8 h-10 w-10 bg-cyan-600 text-white rounded-full flex items-center justify-center font-bold">
+                {day.day}
+              </div>
+
+              <h3 className="text-2xl font-bold">
+                {day.title}
               </h3>
 
-              <p className="font-medium text-slate-700 mt-2">
-                {day.title}
-              </p>
+              <ul className="mt-4 space-y-3">
 
-              <ul className="list-disc ml-5 mt-3">
                 {day.activities.map(
                   (activity, index) => (
-                    <li key={index}>
+                    <li
+                      key={index}
+                      className="flex items-center gap-3"
+                    >
+                      <span className="text-cyan-600">
+                        ✔
+                      </span>
+
                       {activity}
                     </li>
                   )
                 )}
+
               </ul>
+
             </div>
           ))}
+
         </div>
 
       </div>
+
     </div>
-  );
+  </div>
+);
 }
