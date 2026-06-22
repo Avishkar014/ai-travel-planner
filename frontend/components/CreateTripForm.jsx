@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function CreateTripForm() {
   const router = useRouter();
 
@@ -41,7 +41,7 @@ export default function CreateTripForm() {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/trips/generate",
+        `${API_URL}/api/trips/generate`,
         {
           method: "POST",
           headers: {

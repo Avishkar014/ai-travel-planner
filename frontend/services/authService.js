@@ -1,8 +1,8 @@
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const registerUser = async (userData) => {
   const response = await fetch(
-    `${API_URL}/register`,
+    `${API_URL}/api/auth/register`,
     {
       method: "POST",
       headers: {
@@ -17,7 +17,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (userData) => {
   const response = await fetch(
-    `${API_URL}/login`,
+    `${API_URL}/api/auth/login`,
     {
       method: "POST",
       headers: {

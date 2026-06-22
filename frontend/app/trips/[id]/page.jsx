@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function TripDetailsPage() {
   const params = useParams();
 
@@ -32,7 +32,7 @@ export default function TripDetailsPage() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/trips/${params.id}`,
+        `${API_URL}/api/trips/${params.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ export default function TripDetailsPage() {
       localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/trips/${trip._id}/day/${dayIndex}/activity/${activityIndex}`,
+      `${API_URL}/api/trips/${trip._id}/day/${dayIndex}/activity/${activityIndex}`,
       {
         method: "DELETE",
         headers: {
@@ -108,7 +108,7 @@ const addActivity = async () => {
       localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/trips/${trip._id}/add-activity`,
+      `${API_URL}/api/trips/${trip._id}/add-activity`,
       {
         method: "POST",
         headers: {
@@ -146,7 +146,7 @@ const regenerateDay = async () => {
       localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/api/trips/${trip._id}/regenerate-day`,
+      `${API_URL}/api/trips/${trip._id}/regenerate-day`,
       {
         method: "POST",
         headers: {
@@ -444,7 +444,7 @@ const regenerateDay = async () => {
 
           const response =
             await fetch(
-              `http://localhost:5000/api/trips/${trip._id}/regenerate-day`,
+              `${API_URL}/api/trips/${trip._id}/regenerate-day`,
               {
                 method: "POST",
                 headers: {
