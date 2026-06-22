@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const tripImages = {
   goa:
     "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2",
@@ -34,13 +35,13 @@ export default function MyTripsPage() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/trips",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      `${API_URL}/api/trips`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
       const data = await response.json();
 

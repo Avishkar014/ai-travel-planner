@@ -12,7 +12,7 @@ import {
   LogOut,
   Plus,
 } from "lucide-react";
-
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const tripImages = {
   pune:
     "https://images.unsplash.com/photo-1599661046289-e31897846e41",
@@ -51,7 +51,7 @@ export default function DashboardPage() {
   const fetchTrips = async (token) => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/trips",
+        `${API_URL}/api/trips`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
