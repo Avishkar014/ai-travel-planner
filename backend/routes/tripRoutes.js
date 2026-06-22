@@ -5,14 +5,59 @@ import {
   generateTrip,
   getUserTrips,
   getTripById,
+  regenerateDay,
+  deleteActivity,
+  addActivity,
 } from "../controllers/tripController.js";
 
 const router = express.Router();
 
-router.post("/generate", protect, generateTrip);
+/*
+|--------------------------------------------------------------------------
+| Trip Routes
+|--------------------------------------------------------------------------
+*/
 
-router.get("/", protect, getUserTrips);
+// Generate New Trip
+router.post(
+  "/generate",
+  protect,
+  generateTrip
+);
 
-router.get("/:id", protect, getTripById);
+// Get All User Trips
+router.get(
+  "/",
+  protect,
+  getUserTrips
+);
+
+// Get Single Trip
+router.get(
+  "/:id",
+  protect,
+  getTripById
+);
+
+// Delete Activity
+router.delete(
+  "/:id/day/:dayIndex/activity/:activityIndex",
+  protect,
+  deleteActivity
+);
+
+// Add Activity
+router.post(
+  "/:id/add-activity",
+  protect,
+  addActivity
+);
+
+// Regenerate Day using AI
+router.post(
+  "/:id/regenerate-day",
+  protect,
+  regenerateDay
+);
 
 export default router;
